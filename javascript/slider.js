@@ -20,7 +20,7 @@
 				;
 
 			// calculate width of one tab
-			var tabWidth = this.tabWidth = 0 | ( this.width - 2*this.padding ) / this.tabs.length
+			var tabWidth = this.tabWidth = 0 | ( this.width - 2 * ( this.padding || 0 ) ) / this.tabs.length
 			  ,   margin =   this.margin = this.width - this.tabs.length * tabWidth >> 1
 			  , last;
 
@@ -73,7 +73,7 @@
 				}
 			}
 
-			this.trigger( 'range', this.minPos, this.maxPos );
+			this.trigger( 'range', [ this.minPos, this.maxPos ] );
 
 			return this;
 		}
