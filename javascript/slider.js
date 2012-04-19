@@ -47,6 +47,8 @@
 						.data( 'handle', 'right' )
 						.on  ( 'mousedown', $.proxy( this, 'handleDown' ) )
 				);
+
+				this.$range.on( 'mousedown', $.proxy( this, 'rangeDown' ) );
 			}
 
 			var self = this;
@@ -68,9 +70,9 @@
 			this.oRange = [ this.minPos, this.maxPos ];
 
 			if( fromE < fromS ){
-				this.animateTo( 'maxPos', tab );
+				this.animateTo([ this.minPos, tab ]);
 			}else{
-				this.animateTo( 'minPos', tab );
+				this.animateTo([ tab, this.maxPos ]);
 			}
 		}
 
@@ -95,22 +97,15 @@
 			return this;
 		}
 
-		, animateTo : function animateTo( prop, target ){
-			var range = this.oRange.slice()
-			  ,  self = this;
+		, animateTo : function animateTo( range ){
+			var oRange = [ this.minPos, this.maxPos ]
+			  ,   self = this;
 
-			this.$evNode.css({
-				left : this[ prop ]
-			}).animate(
-				{
-					left : target
-				}, {
-					step : function( val ){
-						range[ prop === 'maxPos' ? 1 : 0 ] = val;
-						self.setRange( range[0], range[1] );
-					}
+			this.$evNode.css({ left: 0 }).animate({ left:1 }, {
+				step : function( val ){
+					self.setRange( oRange[0] + ( range[0] - oRange[0] ) * val, oRange[1] + ( range[1] - oRange[1] ) * val );
 				}
-			)
+			} )
 		}
 
 		, getTargetPos : function getTargetPos( ix ){
@@ -127,6 +122,7 @@
 		}
 
 		, mouseMove : function mouseMove( ev ){
+			if( this.handleNm === 'range' ){ this.rangeMove( ev ); }
 			if( !this.activeHandle ){ return; }
 			ev.preventDefault();
 
@@ -145,13 +141,42 @@
 		}
 
 		, mouseUp : function mouseUp( ev ){
-			if( !this.activeHandle ){ return; }
+			if( !this.handleNm ){ return; }
 
-			var prop = ( this.handleNm === 'right' ) ? 'maxPos' : 'minPos';
-
-			this.animateTo( prop, Math.round( this[ prop ] ) );
+			this.animateTo([ Math.round( this.minPos ), Math.round( this.maxPos ) ]);
 
 			delete this.activeHandle;
+			delete this.handleNm;
+		}
+
+		, rangeDown : function rangeDown( ev ){
+			ev.preventDefault();
+
+			this.handleNm = 'range';
+			this.oRange   = [ this.minPos, this.maxPos ];
+			this.mouseX   = ev.pageX;
+		}
+
+		, rangeMove : function rangeMove( ev ){
+			ev.preventDefault();
+
+			var  diff = ev.pageX - this.mouseX
+			  , range = this.oRange.slice();
+
+			range[0] += diff / this.tabWidth;
+			range[1] += diff / this.tabWidth;
+
+			if( range[0] < 0 ){
+				range[1] += -range[0];
+				range[0]  = 0;
+			}
+
+			if( range[1] > ( this.tabs.length - 1 ) ){
+				range[0] -= range[ 1 ] - this.tabs.length + 1;
+				range[1]  = this.tabs.length - 1;
+			}
+
+			this.setRange( range[0], range[1] );
 		}
 
 		,     appendTo : function     appendTo( node ){ this.$node.appendTo    ( node ); return this; }
