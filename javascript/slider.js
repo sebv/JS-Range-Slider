@@ -31,6 +31,7 @@
 			for( var i=0, l=this.tabs.length; i<l; i++ ){
 				this.$tabs.append( last = $( '<div class="slider-tab"><div class="slider-notch"></div><span>' + this.tabs[i].text + '</span></div>' ).css( { width: tabWidth } ) );
 				this.$notches.push( last.find( '.slider-notch' ) );
+				last.find( 'span' ).data( 'tab', i ).bind( 'click', $.proxy( this, 'setEndpoint' ) );
 			}
 
 			// append handle(s)
@@ -57,9 +58,25 @@
 			} );
 		}
 
+		, setEndpoint : function setEndpoint( ev ){
+			ev.preventDefault();
+
+			var   tab = $( ev.target ).data( 'tab' )
+			  , fromS = Math.abs( this.minPos - tab )
+			  , fromE = Math.abs( this.maxPos - tab );
+
+			this.oRange = [ this.minPos, this.maxPos ];
+
+			if( fromE < fromS ){
+				this.animateTo( 'maxPos', tab );
+			}else{
+				this.animateTo( 'minPos', tab );
+			}
+		}
+
 		, setRange : function setRange( min, max ){
 			this.minPos = min;
-			this.maxPos = max;
+			this.maxPos = max || Infinity;
 
 			this.$lHandle.css( { left: min = this.getTargetPos( min ) } );
 
@@ -78,6 +95,24 @@
 			return this;
 		}
 
+		, animateTo : function animateTo( prop, target ){
+			var range = this.oRange.slice()
+			  ,  self = this;
+
+			this.$evNode.css({
+				left : this[ prop ]
+			}).animate(
+				{
+					left : target
+				}, {
+					step : function( val ){
+						range[ prop === 'maxPos' ? 1 : 0 ] = val;
+						self.setRange( range[0], range[1] );
+					}
+				}
+			)
+		}
+
 		, getTargetPos : function getTargetPos( ix ){
 			return this.margin + this.tabWidth * ix + this.tabWidth / 2 - this.handleWidth / 2;
 		}
@@ -87,7 +122,7 @@
 
 			this.handleNm     = $( ev.target ).data( 'handle' );
 			this.activeHandle = ( this.handleNm === 'right' ) ? this.$rHandle : this.$lHandle;
-			this.oRange       = [ this.minPos, this.maxPos || Math.Infinity ];
+			this.oRange       = [ this.minPos, this.maxPos ];
 			this.mouseX       = ev.pageX;
 		}
 
@@ -112,23 +147,9 @@
 		, mouseUp : function mouseUp( ev ){
 			if( !this.activeHandle ){ return; }
 
-			var   prop = this.handleNm === 'right' ? 'maxPos' : 'minPos'
-			  , target = Math.round( this[ prop ] )
-			  ,  range = this.oRange.slice()
-			  ,   self = this;
+			var prop = ( this.handleNm === 'right' ) ? 'maxPos' : 'minPos';
 
-			this.$evNode.css({
-				left : this[ prop ]
-			}).animate(
-				{
-					left : target
-				}, {
-					step : function( val ){
-						range[ self .handleNm === 'right' ? 1 : 0 ] = val;
-						self.setRange( range[0], range[1] );
-					}
-				}
-			)
+			this.animateTo( prop, Math.round( this[ prop ] ) );
 
 			delete this.activeHandle;
 		}
