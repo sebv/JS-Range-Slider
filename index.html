@@ -11,6 +11,45 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+
+    <script type="text/javascript" src="slider/demo//javascript/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="slider/slider.js"></script>
+
+    <script>
+    $( function(){
+      // create the slider
+      ( new Razorfish.Slider( {
+                width : 500
+        , handleWidth : 12
+        ,    useRange : true
+        ,        tabs : [
+            { text : 'Jan', date : new Date( '2012-01-01' ) }
+          , { text : 'Feb', date : new Date( '2012-02-01' ) }
+          , { text : 'Mar', date : new Date( '2012-03-01' ) }
+          , { text : 'Apr', date : new Date( '2012-04-01' ) }
+          , { text : 'May', date : new Date( '2012-05-01' ) }
+          , { text : 'Jun', date : new Date( '2012-06-01' ) }
+          , { text : 'Jul', date : new Date( '2012-07-01' ) }
+          , { text : 'Aug', date : new Date( '2012-08-01' ) }
+          , { text : 'Sep', date : new Date( '2012-09-01' ) }
+          , { text : 'Oct', date : new Date( '2012-10-01' ) }
+          , { text : 'Nov', date : new Date( '2012-11-01' ) }
+          , { text : 'Dec', date : new Date( '2012-12-01' ) }
+        ]
+      } ) )
+        .appendTo ( $( '#demo' ) )
+        .bind     ( 'range', changeRange )
+        .setRange ( 0, 11 );
+    } );
+
+    function changeRange( ev, min, max ){
+      $( '#status' ).text( min + ' -- ' + max )
+    }
+    </script>
+
+    <link href="slider/demo/css/slider.css"  rel="stylesheet" type="text/css" />
+
   </head>
   <body>
     <div class="wrapper">
@@ -25,6 +64,9 @@
         </ul>
       </header>
       <section>
+        <h3>About</h3>
+        <p>The slider creates functioning HTML markup.  It is up to you to stylize it.  Sample style/images are provided in the demo folder.</p>
+
         <h3>Usage</h3>
 
 <div class="highlight">
@@ -57,7 +99,10 @@
 
 <h3>Demo</h3>
 
-<p>soon...</p>
+<div style="width:500px;margin:0 auto;">
+  <div id="demo" style="width:500px;"></div>
+  <div id="status" style="padding-top:50px;"></div>
+</div>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/razorfish">razorfish</a></p>
