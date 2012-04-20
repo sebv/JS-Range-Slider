@@ -1,5 +1,5 @@
-~function(){
-	WBR.Slider = function Slider( params ){
+~function( NS ){
+	NS.Slider = function Slider( params ){
 		this.$evNode  = $( '<div></div>' );
 		this.$node    = $( '<div class="slider"></div>' );
 		this.$notches = [];
@@ -9,7 +9,7 @@
 		this.render();
 	};
 
-	WBR.Slider.prototype = {
+	NS.Slider.prototype = {
 		render : function render(){
 			// create structure
 			this.$node
@@ -189,4 +189,4 @@
 		, trigger : function trigger(){ this.$evNode.trigger.apply( this.$evNode, arguments ); return this; }
 		, one     : function one    (){ this.$evNode.one    .apply( this.$evNode, arguments ); return this; }
 	};
-}();
+}( this.Razorfish || ( this.Razorfish = {} ) );
