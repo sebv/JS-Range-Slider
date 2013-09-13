@@ -98,14 +98,19 @@
 		}
 
 		, animateTo : function animateTo( range ){
-			var oRange = [ this.minPos, this.maxPos ]
-			  ,   self = this;
+      // sebv: disabling animation, cause the method use is jquery specific
+      // todo: use zepto or angular animation instead
 
-			this.$evNode.css({ left: 0 }).animate({ left:1 }, {
-				step : function( val ){
-					self.setRange( oRange[0] + ( range[0] - oRange[0] ) * val, oRange[1] + ( range[1] - oRange[1] ) * val );
-				}
-			} )
+      self.setRange( range[0] , range[1] );
+
+			// var oRange = [ this.minPos, this.maxPos ]
+			//   ,   self = this;
+
+			// this.$evNode.css({ left: 0 }).animate({ left:1 }, {
+			// 	step : function( val ){
+			// 		self.setRange( oRange[0] + ( range[0] - oRange[0] ) * val, oRange[1] + ( range[1] - oRange[1] ) * val );
+			// 	}
+			// } )
 		}
 
 		, getTargetPos : function getTargetPos( ix ){
