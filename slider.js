@@ -101,7 +101,7 @@
       // sebv: disabling animation, cause the method use is jquery specific
       // todo: use zepto or angular animation instead
 
-      self.setRange( range[0] , range[1] );
+      this.setRange( range[0] , range[1] );
 
 			// var oRange = [ this.minPos, this.maxPos ]
 			//   ,   self = this;
