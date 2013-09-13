@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>JS Range Slider by sebv</title>
+    <title>JS Range Slider by razorfish</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -11,27 +11,66 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+
+    <script type="text/javascript" src="app/components/zepto/zepto.js"></script>
+    <script type="text/javascript" src="app/components/JS-Range-Slider/slider.js"></script>
+
+    <script>
+    $( function(){
+      // create the slider
+      ( new Razorfish.Slider( {
+                width : 500
+        , handleWidth : 12
+        ,    useRange : true
+        ,        tabs : [
+            { text : 'Jan', date : new Date( '2012-01-01' ) }
+          , { text : 'Feb', date : new Date( '2012-02-01' ) }
+          , { text : 'Mar', date : new Date( '2012-03-01' ) }
+          , { text : 'Apr', date : new Date( '2012-04-01' ) }
+          , { text : 'May', date : new Date( '2012-05-01' ) }
+          , { text : 'Jun', date : new Date( '2012-06-01' ) }
+          , { text : 'Jul', date : new Date( '2012-07-01' ) }
+          , { text : 'Aug', date : new Date( '2012-08-01' ) }
+          , { text : 'Sep', date : new Date( '2012-09-01' ) }
+          , { text : 'Oct', date : new Date( '2012-10-01' ) }
+          , { text : 'Nov', date : new Date( '2012-11-01' ) }
+          , { text : 'Dec', date : new Date( '2012-12-01' ) }
+        ]
+      } ) )
+        .appendTo ( $( '#demo' ) )
+        .bind     ( 'range', changeRange )
+        .setRange ( 0, 11 );
+    } );
+
+    function changeRange( ev, min, max ){
+      $( '#status' ).text( min + ' -- ' + max )
+    }
+    </script>
+
+    <link href="slider/demo/css/slider.css"  rel="stylesheet" type="text/css" />
+
   </head>
   <body>
     <div class="wrapper">
       <header>
         <h1>JS Range Slider</h1>
         <p>Another range selector</p>
-
         <p class="view"><a href="https://github.com/sebv/JS-Range-Slider">View the Project on GitHub <small>sebv/JS-Range-Slider</small></a></p>
-
-
         <ul>
           <li><a href="https://github.com/sebv/JS-Range-Slider/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/sebv/JS-Range-Slider/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/sebv/JS-Range-Slider">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/sebv/JS-Range-Slider">Fork On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
-        <h3>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+        <h3>About</h3>
+        <p>The slider creates functioning HTML markup.  It is up to you to stylize it.  Sample style/images are provided in the demo folder.</p>
 
-<div class="highlight highlight-js"><pre><span class="c1">// create the slider</span>
+        <h3>Usage</h3>
+
+<div class="highlight">
+<pre><span class="c1">// create the slider</span>
 <span class="p">(</span> <span class="k">new</span> <span class="nx">Razorfish</span><span class="p">.</span><span class="nx">Slider</span><span class="p">(</span> <span class="p">{</span>
             <span class="nx">width</span> <span class="o">:</span> <span class="mi">500</span>
     <span class="p">,</span> <span class="nx">handleWidth</span> <span class="o">:</span> <span class="mi">12</span>
@@ -54,12 +93,16 @@
     <span class="p">.</span><span class="nx">prependTo</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span> <span class="p">)</span>
     <span class="p">.</span><span class="nx">bind</span>     <span class="p">(</span> <span class="s1">'range'</span><span class="p">,</span> <span class="nx">changeRange</span> <span class="p">)</span>
     <span class="p">.</span><span class="nx">setRange</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span> <span class="p">);</span>
-</pre></div>
+</pre>
+</div>
 
-<h3>
-<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h3>
 
-<p>soon...</p>
+<h3>Demo</h3>
+
+<div style="width:500px;margin:0 auto;">
+  <div id="demo" style="width:500px;"></div>
+  <div id="status" style="padding-top:50px;"></div>
+</div>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/sebv">sebv</a></p>
@@ -67,6 +110,6 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+
   </body>
 </html>
