@@ -2,6 +2,8 @@
 
 The slider creates functioning HTML markup.  It is up to you to stylize it.  Sample style/images are provided in the demo folder.
 
+This is a Zepto port of the original.
+
 ### Usage
 
 ```js
@@ -32,4 +34,4 @@ The slider creates functioning HTML markup.  It is up to you to stylize it.  Sam
 
 ### Demo
 
-http://razorfish.github.com/JS-Range-Slider/
+http://sebv.github.com/JS-Range-Slider/
